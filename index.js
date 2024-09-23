@@ -8,14 +8,9 @@ const port = process.env.PORT;
 
 const route = require("./routes/client/index.router")
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://127.0.0.1:27017/Product_Management');
-
-// const Product = mongoose.model('Product', {
-//     title: String,
-//     price: Number,
-//     thumbnail: String
-// });
+//Connect database
+const database = require("./config/database")
+database.connect()
 
 app.set('views', './views');
 app.set('view engine', 'pug');
