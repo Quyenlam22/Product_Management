@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
     })
 
     res.render(`client/page/products/index`, {
-        titlePage: "Danh sách sản phẩm",
+        pageTitle: "Danh sách sản phẩm",
         products: newProducts
     })
 }
