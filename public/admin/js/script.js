@@ -50,3 +50,88 @@ if(buttonsPagination){
         })
     })
 }
+
+// Checkbox Multi
+const checkboxMulti = document.querySelector("[checkbox-multi]")
+
+if (checkboxMulti) {
+    const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']")
+    const inputsId = checkboxMulti.querySelectorAll("input[name='id']")
+    inputCheckAll.addEventListener("click", () => {
+        if (inputCheckAll.checked) {
+            inputsId.forEach(input => {
+                input.checked = true
+            })
+        } else {
+            inputsId.forEach(input => {
+                input.checked = false
+            })
+        }
+    })
+
+    inputsId.forEach(input => {
+        input.addEventListener("click", () => {
+            const countChecked = document.querySelectorAll("input[name='id']:checked")
+            if (countChecked.length == inputsId.length) {
+                inputCheckAll.checked = true;
+            } else {
+                inputCheckAll.checked = false
+            }
+        })
+    })
+}
+
+// Form Change Multi
+const formChangeMulti = document.querySelector("[form-change-multi]")
+if (formChangeMulti) {
+    formChangeMulti.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const inputsChecked = document.querySelectorAll("input[name='id']:checked")
+        
+        const typeChange = e.target.elements.type.value
+        if(typeChange == "delete-all"){
+            const isConfirm = confirm("Đồng ý xóa?")
+            if(!isConfirm){
+                return
+            }
+        }
+
+        if (inputsChecked.length > 0) {
+            let ids = []
+            const inputIds = formChangeMulti.querySelector("input[name='ids']")
+
+            inputsChecked.forEach(input => {
+                const id = input.value
+
+                if(typeChange == "change-position"){
+                    const position = input.closest("tr").querySelector("input[name='position']").value
+                    ids.push(`${id}-${position}`)
+                }
+                else{
+                    ids.push(id)
+                }
+            })
+
+            inputIds.value = (ids.join(", "))
+
+            formChangeMulti.submit()
+        } else {
+            alert("Vui lòng chọn ít nhất 1 bản ghi!")
+        }
+    })
+}
+
+//Show alert
+const showAlert = document.querySelector("[show-alert]")
+if(showAlert){
+    const time = parseInt(showAlert.getAttribute("data-time"))
+    const closeAlert = showAlert.querySelector("[close-alert]")
+
+    closeAlert.addEventListener("click", () => {
+        showAlert.classList.add("alert-hidden")
+    })
+
+    setTimeout(() => {
+        showAlert.classList.add("alert-hidden")
+    }, time)
+}
