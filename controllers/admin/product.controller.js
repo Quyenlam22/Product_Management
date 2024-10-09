@@ -1,4 +1,6 @@
 const Product = require("../../models/product.model")
+const systemConfig = require("../../config/system")
+
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
@@ -20,7 +22,6 @@ module.exports.index = async (req, res) => {
     
     //SEARCH
     const objectSearch = searchHelper(req.query)
-    // console.log(objectSearch)
 
     if(objectSearch.keyword){
         find.title = objectSearch.regex
@@ -123,7 +124,38 @@ module.exports.deletedItem = async (req, res) => {
         deletedAt: new Date()
     })
 
-    req.flash("success", `Xóa sả phẩm thành công!`)
+    req.flash("success", `Xóa sản phẩm thành công!`)
 
     res.redirect("back")
+}
+
+// [GET] /admin/products/create
+module.exports.create = async (req, res) => {
+    res.render('admin/page/products/create.pug', { 
+        pageTitle: 'Thêm mới sản phẩm'
+    })
+}
+
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    if(req.body.position == ""){
+        const countProducts = await Product.countDocuments()
+        req.body.position = countProducts + 1
+    }
+    else{
+        req.body.position = parseInt(req.body.position)
+    }
+    // console.log(req.body)
+    console.log(req.file)
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+
+    const product = new Product(req.body)
+    await product.save()
+
+    req.flash("success", `Thêm sản phẩm thành công!`)
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
