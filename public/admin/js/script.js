@@ -135,3 +135,30 @@ if(showAlert){
         showAlert.classList.add("alert-hidden")
     }, time)
 }
+
+//Upload Image
+const uploadImage = document.querySelector("[upload-image]")
+if(uploadImage){
+    const uploadImageInput = document.querySelector("[upload-image-input]")
+    const uploadImagePreview = document.querySelector("[upload-image-preview]")
+    const closeImage = document.querySelector("[close-image]")
+
+    uploadImageInput.addEventListener("change", (e) => {
+        const file = e.target.files[0]
+        // const [file] = uploadImageInput.files
+        
+        if(file){
+            uploadImagePreview.src = URL.createObjectURL(file)
+            closeImage.style.display = "block"
+
+            //Remove Image
+            closeImage.addEventListener("click", () => {
+                uploadImagePreview.src = ""
+                uploadImageInput.value = ""
+                closeImage.style.display = "none"
+            })
+        }
+    })
+
+    
+}
