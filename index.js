@@ -30,19 +30,21 @@ const route = require("./routes/client/index.router")
 const database = require("./config/database")
 database.connect()
 
-app.set('views', './views')
+app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
 
 //App Locals Variables
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 
+console.log(__dirname)
+
 //Display message to view
 app.use(cookieParser("HJFJFJFUUFJGG"));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
-app.use(express.static("public"))
+app.use(express.static(`${__dirname}/public`))
 
 routeAdmin(app)
 route(app)
