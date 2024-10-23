@@ -108,3 +108,13 @@
     float: right;
     display: none;
 }
+
+/* Sort */
+[sort-select] {
+    width: 150px;
+    display: inline-block;
+}
+
+[sort-clear]{
+    margin: 0 0 3% 3%;
+}
