@@ -11,6 +11,9 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const flash = require("express-flash")
 
+// pathMCE
+const path = require("path")
+
 //Code hidden after up to GitHub
 require("dotenv").config()
 
@@ -45,6 +48,9 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 app.use(express.static(`${__dirname}/public`))
+
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')))
 
 routeAdmin(app)
 route(app)
