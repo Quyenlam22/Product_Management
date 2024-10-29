@@ -55,3 +55,45 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`${systemConfig.prefixAdmin}/product-category`)
 }
+
+// [GET] /admin/product-category/edit
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id
+    
+        let find = {
+            _id: id,
+            deleted: false
+        }
+    
+        const record = await ProductCategory.findOne(find)
+    
+        const records = await ProductCategory.find({deleted: false})
+        const newRecords = createTreeHelper.createTree(records)
+    
+        res.render('admin/page/product-category/edit.pug', { 
+            pageTitle: 'Chỉnh sửa danh mục',
+            record: record,
+            records: newRecords
+        })
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/product-category`)
+    }
+}
+
+    // [POST] /admin/product-category/create
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id
+ 
+    req.body.position = parseInt(req.body.position)
+
+    try {
+        await ProductCategory.updateOne( {_id : id}, req.body)
+
+        req.flash("success", `Sửa danh mục thành công!`)
+    } catch (error) {
+        req.flash("error", `Sửa danh mục thất bại!`)
+    }
+
+    res.redirect(`back`)
+}
