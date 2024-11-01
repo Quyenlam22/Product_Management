@@ -1,9 +1,11 @@
 const Product = require("../../models/product.model")
+const ProductCategory = require("../../models/product-category.model")
 const systemConfig = require("../../config/system")
 
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
+const createTreeHelper = require("../../helpers/createTree")
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -46,7 +48,6 @@ module.exports.index = async (req, res) => {
     else{
         sort.position = "desc"
     }
-
 
     const products = await Product.find(find)
         .sort(sort)
@@ -174,8 +175,17 @@ module.exports.deletedItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+    //Tree
+    const category = await ProductCategory.find(find)
+
+    const newCategory = createTreeHelper.createTree(category)
+
     res.render('admin/page/products/create.pug', {
-        pageTitle: 'Thêm mới sản phẩm'
+        pageTitle: 'Thêm mới sản phẩm',
+        category: newCategory
     })
 }
 
@@ -214,9 +224,15 @@ module.exports.edit = async (req, res) => {
 
         const product = await Product.findOne(find)
 
+        //Tree
+    const category = await ProductCategory.find({deleted: false})
+
+    const newCategory = createTreeHelper.createTree(category)
+
         res.render('admin/page/products/edit.pug', {
             pageTitle: 'Sửa sản phẩm',
-            product: product
+            product: product,
+            category: newCategory
         })
     } catch (error) {
         req.flash("error", `Không tìm thấy sản phẩm!`)
