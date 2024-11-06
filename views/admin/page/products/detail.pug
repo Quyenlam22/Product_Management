@@ -4,6 +4,9 @@ block main
     if(product.title)
         h1(class="mb-4") Chi tiết sản phẩm - #{product.title}
 
+    if(product.product_category_id)
+        div(class="mb-4") Danh mục: <b>!{record.title}</b>
+
     if(product.description)
         div(class="mb-4") Mô tả: <b>!{product.description}</b>
 

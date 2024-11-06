@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
     const records = await Role.find(find)
 
     res.render("admin/page/roles/index", {
-        pageTitle: "Nhóm quyền jksfhskj",
+        pageTitle: "Nhóm quyền",
         records: records
     })
 }
@@ -53,6 +53,7 @@ module.exports.edit = async (req, res) => {
             record: record
         })
     } catch (error) {
+        req.flash("error", "Không tìm thấy nhóm quyền!")
         res.redirect(`${systemConfig.prefixAdmin}/roles`)
     }
 }

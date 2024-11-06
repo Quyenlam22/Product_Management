@@ -42,10 +42,9 @@ module.exports.index = async (req, res) => {
 
     // Sort
     let sort = {}
-    if(req.query.sortKey && req.query.sortValue){
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue
-    }
-    else{
+    } else {
         sort.position = "desc"
     }
 
@@ -225,9 +224,11 @@ module.exports.edit = async (req, res) => {
         const product = await Product.findOne(find)
 
         //Tree
-    const category = await ProductCategory.find({deleted: false})
+        const category = await ProductCategory.find({
+            deleted: false
+        })
 
-    const newCategory = createTreeHelper.createTree(category)
+        const newCategory = createTreeHelper.createTree(category)
 
         res.render('admin/page/products/edit.pug', {
             pageTitle: 'Sửa sản phẩm',
@@ -269,9 +270,19 @@ module.exports.detail = async (req, res) => {
 
         const product = await Product.findOne(find)
 
+        let record
+
+        if(product.product_category_id){
+            record = await ProductCategory.findOne({
+                _id: product.product_category_id,
+                deleted: false
+            })
+        }
+
         res.render('admin/page/products/detail.pug', {
             pageTitle: product.title,
-            product: product
+            product: product,
+            record: record
         })
     } catch (error) {
         req.flash("error", `Không tìm thấy sản phẩm!`)

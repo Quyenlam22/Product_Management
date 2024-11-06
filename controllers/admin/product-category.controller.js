@@ -77,11 +77,12 @@ module.exports.edit = async (req, res) => {
             records: newRecords
         })
     } catch (error) {
+        req.flash("error", "Không tìm thấy danh mục!")
         res.redirect(`${systemConfig.prefixAdmin}/product-category`)
     }
 }
 
-    // [POST] /admin/product-category/create
+// [POST] /admin/product-category/create
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id
  

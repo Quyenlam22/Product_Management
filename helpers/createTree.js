@@ -1,10 +1,10 @@
 //Đệ quy
-let count = 0;
+let count = 0
 function createTree(arr , parentId = ""){
     const tree = []
     arr.forEach(item => {
         if(item.parent_id === parentId){
-            count++;
+            count++
             const newItem = item
             newItem.index = count
             const children = createTree(arr, item.id)
@@ -13,8 +13,8 @@ function createTree(arr , parentId = ""){
             }
             tree.push(newItem)
         }
-    });
-    return tree;
+    })
+    return tree
 }
 
 module.exports.createTree = (arr , parentId = "") => {
