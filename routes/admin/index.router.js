@@ -6,16 +6,17 @@ const accountRoutes = require("./account.router")
 const authRoutes = require("./auth.router")
 const systemConfig = require("../../config/system")
 
+const authMiddleware = require("../../middlewares/admin/auth.middleware")
 
 module.exports = (app) => {
     app.get(systemConfig.prefixAdmin + '/', (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
     })
     
-    app.use(systemConfig.prefixAdmin + '/dashboard', dashboardRoutes)
-    app.use(systemConfig.prefixAdmin + '/product-category', productCategoryRoutes)
-    app.use(systemConfig.prefixAdmin + '/products', productsRoutes)
-    app.use(systemConfig.prefixAdmin + '/roles', roleRoutes)
-    app.use(systemConfig.prefixAdmin + '/accounts', accountRoutes)
+    app.use(systemConfig.prefixAdmin + '/dashboard', authMiddleware.requireAuth, dashboardRoutes)
+    app.use(systemConfig.prefixAdmin + '/product-category', authMiddleware.requireAuth, productCategoryRoutes)
+    app.use(systemConfig.prefixAdmin + '/products', authMiddleware.requireAuth, productsRoutes)
+    app.use(systemConfig.prefixAdmin + '/roles', authMiddleware.requireAuth, roleRoutes)
+    app.use(systemConfig.prefixAdmin + '/accounts', authMiddleware.requireAuth, accountRoutes)
     app.use(systemConfig.prefixAdmin + '/auth', authRoutes)
 }
