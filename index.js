@@ -14,6 +14,9 @@ const flash = require("express-flash")
 // pathMCE
 const path = require("path")
 
+// Moment
+const moment = require("moment")
+
 //Code hidden after up to GitHub
 require("dotenv").config()
 
@@ -39,6 +42,7 @@ app.set('view engine', 'pug')
 //App Locals Variables
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.moment = moment
 
 console.log(__dirname)
 

@@ -100,7 +100,7 @@ module.exports.edit = async (req, res) => {
         })
     } catch (error) {
         req.flash("error", "Không tìm thấy tài khoản!")
-        res.redirect(`${systemConfig.prefixAdmin}/roles`)
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
     }
 }
 
