@@ -43,7 +43,7 @@ module.exports.loginPost = async (req, res) => {
         return
     }
 
-    res.cookie("token", user.token)
+    res.cookie("token", user.token, {maxAge: 12*60*60*1000}) //12 Hours
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
 }
 

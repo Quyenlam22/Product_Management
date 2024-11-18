@@ -61,6 +61,9 @@ module.exports.index = async (req, res) => {
         if(user){
             product.accountFullName = user.fullName
         }
+
+        // Lấy ra thông tin người cập nhật gần nhất
+        // console.log(product.updatedBy.slice(-1)[0])
     }
 
     res.render('admin/page/products/index.pug', {
@@ -78,10 +81,16 @@ module.exports.changeStatus = async (req, res) => {
     const id = req.params.id
 
     try {
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updatedAt: new Date()
+        }
+
         await Product.updateOne({
             _id: id
         }, {
-            status: status
+            status: status,
+            $push: {updatedBy: updatedBy}
         })
         req.flash("success", "Cập nhật trạng thái thành công!")
     } catch (error) {
@@ -95,6 +104,11 @@ module.exports.changeMulti = async (req, res) => {
     const type = req.body.type
     const ids = req.body.ids.split(", ")
 
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
+
     switch (type) {
         case "active":
             try {
@@ -103,6 +117,7 @@ module.exports.changeMulti = async (req, res) => {
                         $in: ids
                     }
                 }, {
+                    $push: {updatedBy: updatedBy},
                     status: "active"
                 })
                 req.flash("success", `Cập nhật trạng thái cho ${ids.length} sản phẩm thành công!`)
@@ -117,6 +132,7 @@ module.exports.changeMulti = async (req, res) => {
                         $in: ids
                     }
                 }, {
+                    $push: {updatedBy: updatedBy},
                     status: "inactive"
                 })
                 req.flash("success", `Cập nhật trạng thái cho ${ids.length} sản phẩm thành công!`)
@@ -132,11 +148,11 @@ module.exports.changeMulti = async (req, res) => {
                     }
                 }, {
                     deleted: true,
-                    // deletedAt: new Date()
-                    deletedBy: {
-                        account_id: res.locals.user.id,
-                        deletedAt: new Date()
-                    }
+                    deletedAt: new Date()
+                    // deletedBy: {
+                    //     account_id: res.locals.user.id,
+                    //     deletedAt: new Date()
+                    // }
                 })
                 req.flash("success", `Xóa ${ids.length} sản phẩm thành công!`)
             } catch (error) {
@@ -151,6 +167,7 @@ module.exports.changeMulti = async (req, res) => {
                     await Product.updateOne({
                         _id: id
                     }, {
+                        $push: {updatedBy: updatedBy},
                         position: position
                     })
                 }
@@ -272,9 +289,17 @@ module.exports.editPatch = async (req, res) => {
     req.body.position = parseInt(req.body.position)
 
     try {
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updatedAt: new Date()
+        }
+
         await Product.updateOne({
             _id: req.params.id
-        }, req.body)
+        }, {
+            ...req.body,
+            $push: {updatedBy: updatedBy}
+        })
         req.flash("success", `Sửa sản phẩm thành công!`)
     } catch (error) {
         req.flash("success", `Sửa sản phẩm thất bại!`)
@@ -301,10 +326,20 @@ module.exports.detail = async (req, res) => {
             })
         }
 
+        const updatedBy = product.updatedBy.slice(-1)[0]
+        if(product.updatedBy.length > 0){
+            const userUpdated = await Account.findOne({
+                _id: updatedBy.account_id
+            })
+
+            updatedBy.accountFullName = userUpdated.fullName
+        }
+
         res.render('admin/page/products/detail.pug', {
             pageTitle: product.title,
             product: product,
-            record: record
+            record: record,
+            updatedBy: updatedBy
         })
     } catch (error) {
         req.flash("error", `Không tìm thấy sản phẩm!`)

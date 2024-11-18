@@ -62,6 +62,12 @@ module.exports.createPost = async (req, res) => {
             deleted: false
         })
 
+        if(req.body.role_id == ""){
+            req.flash("error", `Vui lòng chọn phân quyền`)
+            res.redirect("back")
+            return
+        }
+
         if (emailExist) {
             req.flash("error", `Email ${req.body.email} đã tồn tại`)
             res.redirect("back")
@@ -115,6 +121,12 @@ module.exports.editPatch = async (req, res) => {
 
         if (emailExist) {
             req.flash("error", `Email ${req.body.email} đã tồn tại`)
+        }
+
+        if(req.body.role_id == ""){
+            req.flash("error", `Vui lòng chọn phân quyền`)
+            res.redirect("back")
+            return
         }
 
         if(req.body.password){

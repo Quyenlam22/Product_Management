@@ -12,6 +12,7 @@ block main
             form(
                 action=`${prefixAdmin}/accounts/edit/${record.id}?_method=PATCH`
                 method="POST"
+                enctype="multipart/form-data"
             ) 
                 div(class="form-group")
                     label(for="fullName") Họ tên *
@@ -72,7 +73,7 @@ block main
                 div(class="form-group")
                     label(for="role_id") Phân quyền 
                     select(name="role_id" id="role_id" class="form-control")
-                        option(disable) --Chọn--
+                        option(disable value="") --Chọn--
                         each item in roles
                             option(
                                 value=item.id

@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/moment.pug
 
 block main 
     if(product.title)
@@ -37,6 +38,11 @@ block main
     if(product.position)
         div(class="mb-4") Vị trí: <b>#{product.position}</b>
 
+    if(updatedBy)
+        div(class="mb-4") Người cập nhật: <b>#{updatedBy.accountFullName}</b>
+        div(class="mb-4") Ngày cập nhật: <b>
+            +formatDateTime(updatedBy.updatedAt)
+            </b>
     a(
         class="btn btn-warning"
         href=`${prefixAdmin}/products/edit/${product.id}`
