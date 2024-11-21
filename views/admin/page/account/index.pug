@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/pagination.pug
 
 block main  
     +alert-success(5000)
@@ -91,7 +92,24 @@ block main
                         else
                             tr          
                                 td(colspan="4" class="text-center") Chưa có tài khoản nào được tạo
+        
+        +pagination(pagination)
 
+        form(
+            action="" 
+            method="POST"
+            class="d-none"
+            change-status  
+            path=`${prefixAdmin}/accounts`  
+        ) 
+
+        form(
+            action="" 
+            method="POST"
+            class="d-none"
+            delete-item  
+            path=`${prefixAdmin}/accounts`  
+        ) 
         script(src="/admin/js/account.js") 
     
     else 

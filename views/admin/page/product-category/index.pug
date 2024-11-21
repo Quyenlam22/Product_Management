@@ -1,6 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/pagination.pug
 include ../../mixins/table-tree.pug
+include ../../mixins/search.pug
 
 block main  
     +alert-success(5000)
@@ -10,10 +14,21 @@ block main
         h1 Danh mục sản phẩm
 
         .card.mb-3 
+            .card-header Bộ lọc và tìm kiếm
+                .card-body
+                    .row 
+                        .col-6
+                            +filter-status(filterStatus)
+                        .col-6
+                            +search(keyword)
+
+        .card.mb-3 
             .card-header Danh sách
                 .card-body
                     .row 
                         .col-8 
+                            if(role.permissions.includes("products_edit"))
+                                    +form-change-multi(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
                         .col-4 
                             if(role.permissions.includes("product-category_create"))
                                 a(
@@ -37,7 +52,82 @@ block main
                                 th Hoạt động
 
                         tbody
-                            +table-tree(records)
+                            //- +table-tree(records)
+                            each item, index in records
+                                tr
+                                    td 
+                                        input(
+                                            type="checkbox"
+                                            name="id"
+                                            value=item.id
+                                        )
+                                    td #{item.index}
+                                    td
+                                        img(
+                                            src=item.thumbnail
+                                            alt=item.title
+                                            width="80px"
+                                            height="auto"
+                                            )
+                                    td #{prefix}#{item.title}
+                                    td
+                                        input(
+                                            type="number"
+                                            value = item.position
+                                            style="width: 60px"
+                                            min="1"
+                                            name="position"
+                                        )
+                                    td
+                                        if(role.permissions.includes("product-category_edit"))
+                                            if(item.status == "active")
+                                                a(
+                                                    href="javascript:;" 
+                                                    data-status=item.status
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="badge badge-success"
+                                                ) Hoạt động 
+                                            else
+                                                a(
+                                                    href="#javascript:" 
+                                                    data-status=item.status
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="badge badge-danger"
+                                                ) Dừng hoạt động 
+                                    td 
+                                        a(
+                                            href=`${prefixAdmin}/product-category/detail/${item.id}`
+                                            class="btn btn-secondary btn-sm"
+                                            style="margin-right: 3px"
+                                        ) Chi tiết
+                                        if(role.permissions.includes("product-category_edit"))
+                                            a(
+                                                href=`${prefixAdmin}/product-category/edit/${item.id}`
+                                                class="btn btn-warning btn-sm"
+                                            ) Sửa 
+                                        if(role.permissions.includes("product-category_delete"))
+                                            button(
+                                                class="btn btn-danger btn-sm ml-1"
+                                                button-deleted
+                                                data-id=item.id
+                                                ) Xóa   
+
+        +pagination(pagination)
+
+        form(
+            action="" 
+            method="POST"
+            id="form-change-status"
+            data-path=`${prefixAdmin}/product-category/change-status`  
+        ) 
+        form(
+            action="" 
+            method="POST"
+            id="form-deleted"
+            data-path=`${prefixAdmin}/product-category/delete`  
+        ) 
     else
         script(src="/admin/js/annouce.js") 
     

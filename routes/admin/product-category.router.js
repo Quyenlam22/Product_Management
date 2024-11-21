@@ -19,4 +19,12 @@ route.get('/edit/:id', controller.edit)
 
 route.patch('/edit/:id', upload.single('thumbnail'), uploadCloud.upload, validate.createPost, controller.editPatch)
 
+route.patch("/change-status/:status/:id", controller.changeStatus)
+
+route.get("/detail/:id", controller.detail)
+
+route.patch("/delete/:id", controller.delete)
+
+route.patch("/change-multi", controller.changeMulti)
+
 module.exports = route

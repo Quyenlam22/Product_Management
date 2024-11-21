@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/pagination.pug
 
 block main  
     +alert-success(5000)
@@ -58,5 +59,6 @@ block main
                             tr          
                                 td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo
 
+        +pagination(pagination)
     else 
         script(src="/admin/js/annouce.js")

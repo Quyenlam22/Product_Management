@@ -6,6 +6,7 @@ const systemConfig = require("../../config/system")
 //Check Login
 module.exports.requireAuth = async (req, res, next) => {
     if (!req.cookies.token) {
+        req.flash("success", "Hết phiên đăng nhập!")
         res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
     } else {
         const user = await Account.findOne({
