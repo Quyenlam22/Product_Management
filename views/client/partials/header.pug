@@ -35,4 +35,9 @@ header.header
                             -const pathProduct = "/products"
                             a(href=pathProduct) Sản phẩm
                                +sub-menu(layoutProductCategory, pathProduct)
-                                            
+                        li
+                            a(
+                                class="btn btn-warning"
+                                carts
+                                href=`/carts`
+                            ) <i class="fa-solid fa-cart-shopping"> ( #{miniCart ? miniCart.totalQuantity : 0} )</i>                    
