@@ -1,7 +1,6 @@
 const Cart = require("../../models/cart.model")
-const Product = require("../../models/product.model")
 
-const productHelper = require("../../helpers/product")
+const cartHelper = require("../../helpers/cart")
 
 // [GET] /cart
 module.exports.index = async (req, res) => {
@@ -12,26 +11,11 @@ module.exports.index = async (req, res) => {
             _id: cartId
         })
 
-        if(cart.products.length > 0){
-            for(const item of cart.products){
-                const productId = item.product_id
-                const productInfo = await Product.findOne({
-                    _id: productId,
-                }).select("title thumbnail slug price discountPercentage")
-                
-                productInfo.priceNew = productHelper.priceNewProduct(productInfo)
-
-                item.productInfo = productInfo
-
-                item.totalPrice = productInfo.priceNew * item.quantity 
-            }
-        }
-
-        cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0)
-
+        const cartDetail = await cartHelper(cart)
+        
         res.render('client/page/cart/index.pug', { 
             pageTitle: 'Giỏ hàng',
-            cartDetail: cart
+            cartDetail: cartDetail
         })
     } catch (error) {
         req.flash("error", "Có lỗi trong quá trình hiển thị sản phẩm!")
