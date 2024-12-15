@@ -32,37 +32,37 @@ block main
                                     b #{order.userInfo.address}
 
             .row 
-            .col-
-                h4.mb-2 Thông tin đơn hàng
-                table(
-                    class="table table-bordered"
-                )
-                    thead 
-                        tr 
-                            th STT 
-                            th Hình ảnh
-                            th Tên
-                            th Giá
-                            th Số lượng
-                            th Tổng tiền
-
-                    tbody
-                        if(order.products.length > 0)
-                            each item, index in order.products
-                                tr
-                                    td #{index+1}
-                                    td
-                                        img(src=item.productInfo.thumbnail alt=item.productInfo.title width="80px")
-                                    td #{item.productInfo.title}
-                                    td #{item.productInfo.priceNew}$
-                                    td #{item.quantity}
-                                    td #{item.totalPrice}$
-                        else 
+                .col-12
+                    h4.mb-2 Thông tin đơn hàng
+                    table(
+                        class="table table-bordered"
+                    )
+                        thead 
                             tr 
-                                td(
-                                    colspan="7"
-                                    class="text-center"
-                                ) Giỏ hàng trống
+                                th STT 
+                                th Hình ảnh
+                                th Tên
+                                th Giá
+                                th Số lượng
+                                th Tổng tiền
+
+                        tbody
+                            if(order.products.length > 0)
+                                each item, index in order.products
+                                    tr
+                                        td #{index+1}
+                                        td
+                                            img(src=item.productInfo.thumbnail alt=item.productInfo.title width="80px")
+                                        td #{item.productInfo.title}
+                                        td #{item.productInfo.priceNew}$
+                                        td #{item.quantity}
+                                        td #{item.totalPrice}$
+                            else 
+                                tr 
+                                    td(
+                                        colspan="7"
+                                        class="text-center"
+                                    ) Giỏ hàng trống
 
             if(order.products.length > 0)                
                 h3(class="text-end") Tổng đơn hàng: #{order.totalPrice}$                        

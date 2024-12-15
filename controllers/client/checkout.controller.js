@@ -66,7 +66,7 @@ module.exports.order = async (req, res) => {
         const order = new Order(orderInfo)
         await order.save()
 
-        await Cart,Order.updateOne({
+        await Cart.updateOne({
             _id: cartId
         }, {
             products: []

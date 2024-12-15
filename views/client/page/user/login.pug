@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+
+block main
+    .container.my-5
+        .row.justify-content-center
+            .col-6
+                h2.text-center Đăng Nhập
+                form(
+                    action=`/user/login`
+                    method="POST"
+                )
+                    .form-group
+                        label(for="email") Email:
+                        input(
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            required
+                        )
+                    .form-group
+                        label(for="password") Mật khẩu:
+                        input(
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            required
+                        )
+                    .form-group.text-center.mt-3
+                        button(
+                            type="submit"
+                            class="btn btn-primary btn-block"
+                        ) Đăng Nhập
+                        p.link-auth Bạn chưa có tài khoản? 
+                            a(href="/user/register") Đăng ký
+                        p.link-auth 
+                            a(href="/user/password/forgot") Quên mật khẩu?

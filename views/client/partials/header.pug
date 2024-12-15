@@ -8,7 +8,7 @@ header.header
                     a(href="/")
                         img(src="/images/Logo.jpg" alt="Logo")
 
-            .col-5
+            .col-3
                 form(
                     action="/search"
                     method="GET"
@@ -41,3 +41,24 @@ header.header
                                 carts
                                 href=`/cart`
                             ) <i class="fa-solid fa-cart-shopping"> ( #{miniCart ? miniCart.totalQuantity : 0} )</i>                    
+            //- div(class="text-right")
+            .col-2.text-right
+                //- if(userClient)
+                if(user)
+                    a(
+                        href=`/my-account`
+                        class="btn btn-primary btn-sm mr-2"
+                    ) #{user.fullName}
+                    a(
+                        href=`/user/logout`
+                        class="btn btn-danger btn-sm"
+                    ) Đăng xuất
+                else
+                    a(
+                        href=`/user/login`
+                        class="btn btn-primary btn-sm mr-2"
+                    ) Đăng nhập
+                    a(
+                        href=`/user/register`
+                        class="btn btn-danger btn-sm"
+                    ) Đăng ký
