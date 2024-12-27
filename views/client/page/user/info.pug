@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-5
+        .row.justify-content-center
+            .col-12
+                +box-head("Thông tin tài khoản")
+
+        if(userClient.fullName)
+            h1(class="mb-4") #{userClient.fullName}
+
+        if(userClient.avatar)
+            div(class="mb-4")
+                img(
+                    src=userClient.avatar
+                    style="width: 100px"
+                )
+
+        if(userClient.email)
+            div(class="mb-4") Email: <b>!{userClient.email}</b>
+
+        if(userClient.phone)
+            div(class="mb-4") Phone: <b>#{userClient.phone}</b>
+
+        if(userClient.status)
+            div(class="mb-4")
+                span Trạng thái: 
+                if(userClient.status == "active")
+                    span(class="badge badge-success") Hoạt động
+                else
+                    span(class="badge badge-danger") Dừng hoạt động
+        a(
+            class="btn btn-warning"
+            href=`${prefixAdmin}/user/info/edit`
+        ) Chỉnh sửa thông tin cá nhân

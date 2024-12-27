@@ -195,3 +195,10 @@ module.exports.resetPasswordPost = async (req, res) => {
         res.redirect("back")
     }
 }
+
+//[GET] user/info
+module.exports.info = async (req, res) => {
+    res.render("client/page/user/info", {
+        pageTitle: "Thông tin tài khoản",
+    })
+}
