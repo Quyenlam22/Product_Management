@@ -316,8 +316,6 @@ module.exports.editPatch = async (req, res) => {
                 updatedAt: new Date()
             }
 
-            console.log(req.body)
-
             await Product.updateOne({
                 _id: req.params.id
             }, {

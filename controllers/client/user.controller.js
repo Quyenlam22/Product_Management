@@ -1,5 +1,6 @@
 const User = require("../../models/user.model")
 const ForgotPassword = require("../../models/forgot-password.model")
+const Cart = require("../../models/cart.model")
 
 const md5 = require("md5")
 
@@ -75,6 +76,20 @@ module.exports.loginPost = async (req, res) => {
             return
         }
 
+        const cart = await Cart.findOne({
+            user_id: user.id
+        })
+
+        if (!cart) {
+            await Cart.updateOne({
+                _id: req.cookies.cartId,
+            }, {
+                user_id: user.id
+            })
+        } else {
+            res.cookie("cartId", cart.id)
+        }
+
         res.cookie("tokenUser", user.tokenUser, {
             maxAge: 12 * 60 * 60 * 1000
         }) //12 Hours
@@ -89,6 +104,7 @@ module.exports.loginPost = async (req, res) => {
 //[GET] user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser")
+    res.clearCookie("cartId")
     req.flash("success", "Thoát tài khoản thành công!")
     res.redirect("/")
 }
