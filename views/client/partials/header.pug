@@ -37,10 +37,12 @@ header.header
                                +sub-menu(layoutProductCategory, pathProduct)
                         li
                             a(
-                                class="btn btn-warning"
                                 carts
                                 href=`/cart`
-                            ) <i class="fa-solid fa-cart-shopping"> ( #{miniCart ? miniCart.totalQuantity : 0} )</i>                    
+                            ) <i class="fa-solid fa-cart-shopping"> ( #{miniCart ? miniCart.totalQuantity : 0} )</i>          
+                        if(user)
+                            li 
+                                a(href="/chat") <i class="fa-brands fa-facebook-messenger"></i>           
             //- div(class="text-right")
             .col-2.text-right
                 //- if(userClient)

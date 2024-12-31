@@ -20,14 +20,26 @@ const moment = require("moment")
 //Code hidden after up to GitHub
 require("dotenv").config()
 
+const http = require('http')
+const {
+    Server
+} = require("socket.io")
+
 const app = express()
 const port = process.env.PORT
+
+// SocketIO
+const server = http.createServer(app)
+const io = new Server(server)
+global._io = io
 
 // app.use(methodOverride('X-HTTP-Method-Override'))
 app.use(methodOverride('_method'))
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 
 const routeAdmin = require("./routes/admin/index.router")
 const route = require("./routes/client/index.router")
@@ -44,11 +56,13 @@ const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 app.locals.moment = moment
 
-console.log(__dirname)
-
 //Display message to view
 app.use(cookieParser("HJFJFJFUUFJGG"));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: {
+        maxAge: 60000
+    }
+}));
 app.use(flash());
 
 app.use(express.static(`${__dirname}/public`))
@@ -58,12 +72,12 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 routeAdmin(app)
 route(app)
-app.get("*", (req,res) => {
+app.get("*", (req, res) => {
     res.render("client/page/errors/404", {
         pageTitle: "404 not found"
     })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Example listening on port ${port}`)
 })
