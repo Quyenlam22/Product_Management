@@ -267,15 +267,40 @@ padding-right: 0px;
 .chat {
     border: 1px solid #ddd;
     border-radius: 8px;
-    background: #fff;
+    width: 100%;
+}
+
+.chat .inner-head {
     padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ddd;
+}
+
+.chat .inner-head .inner-avatar {
+    background: #FE5DA3;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    font-weight: 700;
+    text-align: center;
+    line-height: 32px;
+    color: #fff;
+}
+
+.chat .inner-head .inner-name {
+    display: inline-block;
+    font-weight: 600;
+    margin-left: 5px;
 }
 
 .chat .inner-body {
-    max-height: 400px;
+    padding: 10px;
+    max-height: 450px;
     overflow-y: auto;
-    padding-bottom: 10px;
+}
+
+.chat .inner-body .inner-name {
+    font-weight: 600;
 }
 
 .chat .inner-incoming,
@@ -283,16 +308,7 @@ padding-right: 0px;
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
-}
-
-.chat .inner-incoming .inner-name,
-.chat .inner-outgoing .inner-content {
-    font-size: 14px;
-}
-
-.chat .inner-incoming {
     flex-direction: column;
-    align-items: flex-start;
 }
 
 .chat .inner-incoming .inner-name {
@@ -303,25 +319,27 @@ padding-right: 0px;
 }
 
 .chat .inner-incoming .inner-content {
-    background: #f2f2f2;
-    padding: 10px 15px;
+    background: #F1F1F1;
+    margin-bottom: 10px;
     border-radius: 15px;
-    max-width: 70%;
-    color: #333;
-    line-height: 1.5;
+    max-width: 220px;
+    line-height: 1.4;
+    padding: 5px 10px;
     word-wrap: break-word;
 }
 
-.chat .inner-outgoing {
+/* .chat .inner-outgoing {
     flex-direction: row-reverse;
     align-items: flex-end;
-}
+} */
 
 .chat .inner-outgoing .inner-content {
     background: #FE5DA3;
-    padding: 10px 15px;
+    padding: 5px 10px;
     border-radius: 15px;
-    max-width: 70%;
+    max-width: 60%;
+    margin-left: auto;
+    margin-bottom: 10px;
     color: #fff;
     line-height: 1.5;
     word-wrap: break-word;
@@ -349,7 +367,6 @@ padding-right: 0px;
     width: 100%;
 }
 
-
 .chat .inner-form button {
     border-radius: 15px;
     border: 1px solid #FE5DA3;
@@ -358,6 +375,50 @@ padding-right: 0px;
     height: 32px;
     padding: 0 10px;
     cursor: pointer;
+}
+
+.chat .inner-body .inner-images img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #efefef;
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+    margin: 0 0 5px 5px;
+}
+
+.chat .inner-preview-images {
+    position: relative;
+    overflow: hidden; /* Ẩn phần thừa */
+}
+
+.chat .inner-preview-images .label-container {
+    display: none;
+}
+
+.chat .inner-preview-images .input-container {
+    display: none;
+}
+
+.chat .inner-preview-images .inner-preview {
+    height: auto;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+
+.chat .inner-preview-images .custom-file-container__image-multi-preview {
+    width: 90px;
+    background-size: contain;
 }
 
 /* Emoji Picker */
@@ -418,3 +479,4 @@ padding-right: 0px;
         opacity: 0.1;
     }
 }
+
