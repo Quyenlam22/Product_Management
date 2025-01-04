@@ -71,6 +71,9 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     `
     body.insertBefore(div, elementListTyping)
 
+    //Preview Images
+    const gallery = new Viewer(div)
+
     body.scrollTop = body.scrollHeight
 })
 
@@ -160,3 +163,25 @@ if (elementListTyping) {
         }
     })
 }
+
+// Viewer Js
+if(body){
+    const gallery = new Viewer(body)
+}
+
+// Delete message
+document.querySelectorAll('.options-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const menu = this.nextElementSibling;
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+});
+
+// Close the options menu if clicked outside
+document.addEventListener('click', function (event) {
+    if (!event.target.matches('.options-button') && !event.target.closest('.options-menu')) {
+        document.querySelectorAll('.options-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    }
+});

@@ -421,6 +421,34 @@ padding-right: 0px;
     background-size: contain;
 }
 
+.options-button {
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.options-button:focus {
+    outline: none;
+}
+
+.options-menu {
+    display: none;
+    top: 30px;
+    right: 10px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.options-menu button {
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+}
+
 /* Emoji Picker */
 .button-icon{
     cursor: pointer;
