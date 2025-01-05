@@ -12,7 +12,7 @@ block main
         .row 
             each user in users
                 .col-6 
-                    .box-user 
+                    .box-user.add
                         .inner-avatar 
                             img(
                                 src=(user.avatar ? user.avatar : "/images/avatar.png")
