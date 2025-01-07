@@ -48,8 +48,11 @@ const route = require("./routes/client/index.router")
 const database = require("./config/database")
 database.connect()
 
-app.set('views', `${__dirname}/views`)
+// app.set('views', `${__dirname}/views`)
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug')
+// app.set('view engine', 'jade');
+
 
 //App Locals Variables
 const systemConfig = require("./config/system")

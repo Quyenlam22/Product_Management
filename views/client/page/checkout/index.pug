@@ -47,9 +47,13 @@ block main
             .row     
                 .col-12
                     .card.p-4.my-4   
+                        //- form(
+                        //-         action=`/order/create_payment_url`
+                        //-         method="POST"
+                        //-     )
                         form(
-                                action=`checkout/order`
-                                method="POST"
+                                action=`/order/create_payment_url`
+                                method="GET"
                             )
                                 div(class="form-group")
                                     label(for="fullName") Họ tên

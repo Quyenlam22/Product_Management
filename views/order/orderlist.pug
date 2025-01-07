@@ -1,0 +1,81 @@
+extends ../client/layouts/default.pug
+include ../client/mixins/box-head.pug
+include ../client/mixins/moment.pug
+
+block main
+    if(userClient)
+        if(orders.length > 0)
+            .container.my-3 
+                .row 
+                    .col-12 
+                        +box-head(pageTitle)
+                    
+                    .row 
+                        .col-12
+                            table(
+                                class="table table-bordered text-center"
+                            )
+                                thead 
+                                    tr 
+                                        th(rowspan="2") STT 
+                                        th(rowspan="2") Thông tin khách hàng
+                                        th Sản phẩm đã đặt
+                                        th Giá
+                                        th Số lượng
+                                        th(rowspan="2") Tổng tiền
+                                        th(rowspan="2") Trạng thái xử lý
+                                        th(rowspan="2") Ngày tạo
+
+                                tbody
+                                    each item, index in orders
+                                        if(item.products.length > 0)
+                                            tr
+                                                td #{index+1}
+                                                td
+                                                    p Họ Tên: #{item.userInfo.fullName}
+                                                    p SDT: #{item.userInfo.phone}
+                                                    p Địa chỉ: #{item.userInfo.address}  
+                                                    
+                                                each product in item.listProducts
+                                                    td 
+                                                        img(
+                                                            src=product.thumbnail 
+                                                            alt=product.title
+                                                            style="width: 100px"
+                                                            )
+                                                        p #{product.title}
+                                                    td #{product.priceNew}
+                                                    td #{product.quantity}
+                                                    td #{item.totalPrice}
+                                                td
+                                                    if(item.status == "processed")
+                                                        button(
+                                                            class="btn btn-success"
+                                                        ) Đã thanh toán
+                                                    else
+                                                        button(
+                                                            class="btn btn-danger mb-3"
+                                                        ) Chưa thanh toán
+                                                        br 
+                                                        form(
+                                                            action=`order/create_payment_again`
+                                                            method="POST"
+                                                        ) 
+                                                            input(
+                                                                type="text"
+                                                                class="d-none"
+                                                                id="id"
+                                                                name="id"
+                                                                value=item.id
+                                                            )
+                                                            button(
+                                                                type="submit"
+                                                                class="btn btn-info"
+                                                            ) Thanh toán ngay !
+                                                td 
+                                                 +formatDateTime(item.createdAt)
+                                                    
+        else
+            h2.text-center Chưa có đơn hàng nào được tạo
+    else    
+        h2.text-center Vui lòng đăng nhập để kiểm tra đơn hàng

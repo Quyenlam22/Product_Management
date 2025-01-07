@@ -8,7 +8,7 @@ header.header
                     a(href="/")
                         img(src=settingGeneral.logo alt=settingGeneral.websiteName)
 
-            .col-3
+            .col-2
                 form(
                     action="/search"
                     method="GET"
@@ -26,7 +26,7 @@ header.header
                             class="btn btn-primary"
                         ) Tìm
 
-            .col-4
+            .col-5
                 .inner-menu 
                     ul 
                         li 
@@ -35,6 +35,9 @@ header.header
                             -const pathProduct = "/products"
                             a(href=pathProduct) Sản phẩm
                                +sub-menu(layoutProductCategory, pathProduct)
+                        if(userClient)
+                            li 
+                                a(href="/order") Đơn mua
                         li
                             a(
                                 carts

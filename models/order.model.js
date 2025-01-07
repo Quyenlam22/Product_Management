@@ -16,6 +16,10 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     cart_id: String,
+    status: {
+        type: String,
+        default: "unprocessed"
+    },
     deleted: {
         type: Boolean,
         default: false
