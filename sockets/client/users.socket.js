@@ -2,6 +2,20 @@ const User = require("../../models/user.model")
 
 // const uploadToCloudinary = require("../../helpers/uploadToCloudinary")
 
+const realTimeAcceptFriends = async (userId) => {
+    // Lấy ra độ dài acceptFriends của B và trả về cho B
+    const infoUserB = await User.findOne({
+        _id: userId
+    })
+
+    const lengthAcceptFriends = infoUserB.acceptFriends.length
+
+    return {
+        userId: userId,
+        lengthAcceptFriends: lengthAcceptFriends
+    }
+}
+
 module.exports = (res) => {
     const myUserId = res.locals.user.id
 
@@ -32,6 +46,22 @@ module.exports = (res) => {
                     $push: {requestFriends: userId}
                 })
             }
+
+            // Lấy ra độ dài acceptFriends của B và trả về cho B
+            const data = await realTimeAcceptFriends(userId)
+
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", data)
+
+            // Lấy ra thông tin của A và trả về cho B
+             const infoUserA = await User.findOne({
+                _id: myUserId
+             }).select("id avatar fullName")
+
+            socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIEND", {
+                userId: userId,
+                infoUserA: infoUserA
+            })
+
         })
 
         socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {
@@ -60,6 +90,15 @@ module.exports = (res) => {
                     $pull: {requestFriends: userId}
                 })
             }
+
+            const data = await realTimeAcceptFriends(userId)
+
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", data)
+
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND", {
+                userId: userId, // A send to B. B'id
+                myUserId: myUserId // A'id
+            })
         })
 
         socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
@@ -88,6 +127,11 @@ module.exports = (res) => {
                     $pull: {requestFriends: myUserId}
                 })
             }
+
+            // Lấy ra độ dài acceptFriends của B và trả về cho B
+            const data = await realTimeAcceptFriends(myUserId)
+
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", data)
         })
 
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
@@ -131,6 +175,10 @@ module.exports = (res) => {
                 })
             }
 
+            // Lấy ra độ dài acceptFriends của B và trả về cho B
+            const data = await realTimeAcceptFriends(myUserId)
+
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", data)
         })
     })
 }
