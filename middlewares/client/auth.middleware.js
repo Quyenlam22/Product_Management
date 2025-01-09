@@ -3,8 +3,8 @@ const User = require("../../models/user.model")
 //Check Login
 module.exports.requireAuth = async (req, res, next) => {
     if(!req.cookies.tokenUser){
-        req.flash("error", "Vui lòng đăng nhập để thanh toán!")
-        res.redirect(`/auth/login`)
+        req.flash("error", "Vui lòng đăng nhập!")
+        res.redirect(`/user/login`)
     }
     else{
         if(req.cookies.tokenUser){

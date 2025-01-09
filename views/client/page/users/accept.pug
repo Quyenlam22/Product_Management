@@ -9,7 +9,7 @@ block main
 
         include ../../partials/list-btn-users.pug
 
-        .row(data-users-accept=user.id)
+        .row(data-users-accept=userClient.id)
             each user in users
                 .col-6(user-id=user.id) 
                     .box-user
@@ -41,5 +41,5 @@ block main
                                 ) Đã chấp nhận
                                 
 
-block script
-    script(src="/js/users.js") 
+//- block script
+//-     script(src="/js/users.js") 

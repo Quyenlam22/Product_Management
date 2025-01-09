@@ -167,7 +167,7 @@ module.exports = (res) => {
                 },{
                     $push: {
                         friendList: {
-                          user_id: userId,
+                          user_id: myUserId,
                           room_chat_id: ""
                         }  
                     },

@@ -6,6 +6,7 @@ const md5 = require("md5")
 
 const generateHelper = require("../../helpers/generate")
 const sendMailHelper = require("../../helpers/sendMail")
+const userSocket = require("../../sockets/client/user.socket")
 
 //[GET] user/register
 module.exports.register = async (req, res) => {
@@ -93,6 +94,20 @@ module.exports.loginPost = async (req, res) => {
         res.cookie("tokenUser", user.tokenUser, {
             maxAge: 12 * 60 * 60 * 1000
         }) //12 Hours
+
+        await User.updateOne({
+            tokenUser: user.tokenUser
+        }, {
+            statusOnline: "online"
+        })
+
+        const userAfterUpdate = await User.findOne({
+            tokenUser: user.tokenUser,
+            deleted: false
+        })
+
+        userSocket(res, userAfterUpdate)
+
         req.flash("success", "Đăng nhập thành công!")
         res.redirect(`/`)
     } catch (e) {
@@ -103,6 +118,20 @@ module.exports.loginPost = async (req, res) => {
 
 //[GET] user/logout
 module.exports.logout = async (req, res) => {
+    await User.updateOne({
+        tokenUser: req.cookies.tokenUser
+    }, {
+        statusOnline: "offline"
+    })
+
+    const userAfterUpdate = await User.findOne({
+        _id: res.locals.user.id
+    })
+
+    if(userAfterUpdate){
+        userSocket(res, userAfterUpdate)
+    }
+
     res.clearCookie("tokenUser")
     res.clearCookie("cartId")
     req.flash("success", "Thoát tài khoản thành công!")
