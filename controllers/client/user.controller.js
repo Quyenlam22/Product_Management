@@ -128,9 +128,7 @@ module.exports.logout = async (req, res) => {
         _id: res.locals.user.id
     })
 
-    if(userAfterUpdate){
-        userSocket(res, userAfterUpdate)
-    }
+    userSocket(res, userAfterUpdate)
 
     res.clearCookie("tokenUser")
     res.clearCookie("cartId")

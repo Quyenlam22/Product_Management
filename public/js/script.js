@@ -31,3 +31,8 @@ if(orderQuantity){
         inputOrder.value = parseInt(inputOrder.value) + 1
     })
 }
+
+// window.addEventListener('beforeunload', (event) => {
+//     socket.emit('CLIENT_CLOSE_WEB', "User close web")
+// });
+

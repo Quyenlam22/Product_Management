@@ -78,7 +78,8 @@ module.exports.friends = async (req, res) => {
 
     usersSocket(res)
 
-    let friendListId = myUser.friendList.user_id
+    const friendList = myUser.friendList
+    const friendListId = friendList.map(item => item.user_id)
 
     const users = await User.find({
         _id: {$in: friendListId},
@@ -86,6 +87,11 @@ module.exports.friends = async (req, res) => {
         deleted: false
     }).select("id avatar fullName statusOnline")
     
+    for (const user of users) {
+        const infoFriend = friendList.find(friend => friend.user_id == user.id)
+        user.infoFriend = infoFriend
+    }
+
     res.render("client/page/users/friends", {
         pageTitle: "Danh sách bạn bè",
         users: users

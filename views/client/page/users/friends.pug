@@ -23,7 +23,7 @@ block main
                             .inner-buttons 
                                 a(
                                     class="btn btn-sm btn-primary mx-1"
-                                    href="#"
+                                    href=`/chat/${user.infoFriend.room_chat_id}`
                                 ) Nhắn tin
                             
                         div(
@@ -32,5 +32,5 @@ block main
                         ) <i class="fa-solid fa-circle"></i>
                                 
 
-//- block script
-//-     script(src="/js/users.js") 
+block script
+    script(src="/js/users.js") 

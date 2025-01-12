@@ -18,10 +18,12 @@ const userSchema = new mongoose.Schema({
     },
     requestFriends: Array, // Lời mời đã gửi
     acceptFriends: Array, // Lời mời đã nhận
-    friendList: {
+    friendList: [
+        {
         user_id: String,
         room_chat_id: String
-    },
+        }
+    ],
     statusOnline: String,
     deleted: {
         type: Boolean,
