@@ -12,11 +12,14 @@ module.exports.notFriend = async (req, res) => {
 
     usersSocket(res)
 
+    const friendListId = myUser.friendList.map(item => item.user_id)
+
     const users = await User.find({
         $and: [
             {_id: {$ne: userId}},
             {_id: {$nin: myUser.requestFriends}},
-            {_id: {$nin: myUser.acceptFriends}}
+            {_id: {$nin: myUser.acceptFriends}},
+            {_id: {$nin: friendListId}}
         ],
         status: "active",
         deleted: false
