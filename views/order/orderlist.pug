@@ -17,37 +17,36 @@ block main
                             )
                                 thead 
                                     tr 
-                                        th(rowspan="2") STT 
-                                        th(rowspan="2") Thông tin khách hàng
+                                        th STT 
+                                        th Thông tin khách hàng
                                         th Sản phẩm đã đặt
                                         th Giá
                                         th Số lượng
-                                        th(rowspan="2") Tổng tiền
-                                        th(rowspan="2") Trạng thái xử lý
-                                        th(rowspan="2") Ngày tạo
-
+                                        th Tổng tiền
+                                        th Trạng thái xử lý
+                                        th Ngày tạo
+                                
                                 tbody
                                     each item, index in orders
                                         if(item.products.length > 0)
+                                            - var firstProduct = item.listProducts[0];
                                             tr
-                                                td #{index+1}
-                                                td
+                                                td(rowspan=item.products.length) #{index+1}
+                                                td(rowspan=item.products.length)
                                                     p Họ Tên: #{item.userInfo.fullName}
                                                     p SDT: #{item.userInfo.phone}
                                                     p Địa chỉ: #{item.userInfo.address}  
-                                                    
-                                                each product in item.listProducts
-                                                    td 
-                                                        img(
-                                                            src=product.thumbnail 
-                                                            alt=product.title
-                                                            style="width: 100px"
-                                                            )
-                                                        p #{product.title}
-                                                    td #{product.priceNew}
-                                                    td #{product.quantity}
-                                                    td #{item.totalPrice}
                                                 td
+                                                    img(
+                                                        src=firstProduct.image 
+                                                        alt=firstProduct.title
+                                                        style="width: 100px"
+                                                    )
+                                                    p #{firstProduct.title}
+                                                td #{firstProduct.priceNew}
+                                                td #{firstProduct.quantity}
+                                                td(rowspan=item.products.length) #{item.totalPrice}
+                                                td(rowspan=item.products.length)
                                                     if(item.status == "processed")
                                                         button(
                                                             class="btn btn-success"
@@ -72,8 +71,22 @@ block main
                                                                 type="submit"
                                                                 class="btn btn-info"
                                                             ) Thanh toán ngay !
-                                                td 
-                                                 +formatDateTime(item.createdAt)
+                                                td(rowspan=item.products.length) 
+                                                    +formatDateTime(item.createdAt)
+
+                                            each product, index in item.listProducts
+                                                if index > 0
+                                                    tr
+                                                        td 
+                                                            img(
+                                                                src=product.image 
+                                                                alt=product.title
+                                                                style="width: 100px"
+                                                            )
+                                                            p #{product.title}
+                                                        td #{product.priceNew}
+                                                        td #{product.quantity}
+
                                                     
         else
             h2.text-center Chưa có đơn hàng nào được tạo

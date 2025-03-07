@@ -8,7 +8,7 @@ block content
         form#createOrder(action=`create_payment_url`, method='POST')
             div.form-group
                 label Số tiền (VND)
-                input.form-control#amount(name='amount', placeholder='Số tiền', value=cart.totalPrice)
+                input.form-control#amount(name='amount', placeholder='Số tiền', value=cart.totalPrice.toLocaleString())
 
             div.form-group
                 label Chọn Phương thức thanh toán:
